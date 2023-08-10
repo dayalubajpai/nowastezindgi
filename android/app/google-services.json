@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "874186357273",
+    "firebase_url": "https://nowastechallenge-d2dc8-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "nowastechallenge-d2dc8",
+    "storage_bucket": "nowastechallenge-d2dc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874186357273:android:c9473cbcfc96b0fb56c888",
+        "android_client_info": {
+          "package_name": "com.example.nowaste_zindagi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874186357273-k152gic2jp18h3lofm3u8plvp08tvnq6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nowaste_zindagi",
+            "certificate_hash": "faf4a3540c66eeb27143f96f727c4b86d6d81c3e"
+          }
+        },
+        {
+          "client_id": "874186357273-ofksn8vovod6v7q7uo615crt709p9png.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQicWn2-RBBLVg8jR4TbOaSWnu9FcXcMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874186357273-ofksn8vovod6v7q7uo615crt709p9png.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
