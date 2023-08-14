@@ -70,8 +70,6 @@ class HomeScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    print('profiel');
-                    // context.watch<FirebaseProvider>().getUser();
                     Navigator.pushNamed(context, RoutesName.updateProfile);
                   },
                   child: Padding(
@@ -141,6 +139,8 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: 60,),
+
               ],
             ),
           ),
@@ -183,13 +183,10 @@ class HomeScreen extends StatelessWidget {
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
-  CleanCalendarController calendarController = CleanCalendarController(
-      minDate: DateTime.now(),
-      maxDate: DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day + 3));
-
   @override
   Widget build(BuildContext context) {
+
+    context.read<ComponentProvider>().startCounter(0);
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       children: [
@@ -210,113 +207,134 @@ class HomePage extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-            child: Consumer<ComponentProvider>(builder: (context, value, child){
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Text('7 Days',
-                      style: TextStyles.heading.copyWith(fontSize: 32)),
-                  const SizedBox(
-                    height: 5.0,
-                  ),
-                  const Text(
-                    '4 Hours, 26 Minutest',
-                    style: TextStyles.extrasmallTxt,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Text("25% Builded",
-                      style: TextStyles.smallText.copyWith(
-                        fontWeight: FontWeight.w600,
-                      )),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: LinearProgressIndicator(
-                      minHeight: 10.0,
-                      backgroundColor: Colors.black12,
-                      valueColor:
-                      new AlwaysStoppedAnimation<Color>(Colors.redAccent),
-                      value: 0.35,
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child:
+                  Consumer<ComponentProvider>(builder: (context, value, child) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 10.0,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.35,
-                        height: 70,
-                        //TODO : start button
-                        child: ElevatedButton(
-                          onPressed: () {
-                            value.setTime();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.redAccent,
-                            elevation: 0.0,
-                            shadowColor: Colors.black54.withOpacity(0.2),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                    Text('${value.days} Days',
+                        style: TextStyles.heading.copyWith(fontSize: 32)),
+                    const SizedBox(
+                      height: 5.0,
+                    ),
+                    Text(
+                      '${value.hours} Hours, ${value.minutes} Minutes,  ${value.seconds} Seconds',
+                      style: TextStyles.extrasmallTxt,
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    Text("${(value.progressBar*100).round()}% Builded",
+                        style: TextStyles.smallText.copyWith(
+                          fontWeight: FontWeight.w600,
+                        )),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: LinearProgressIndicator(
+                        minHeight: 10.0,
+                        backgroundColor: Colors.black12,
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>( (value.progressBar*100).round() > 50 ? Colors.green : Colors.redAccent),
+                        value: value.progressBar,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          height: 70,
+                          //TODO : start button
+                          child: ElevatedButton(
+                            onPressed: () {
+                              value.setTime();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: value.color ?? Colors.green,
+                              elevation: 0.0,
+                              shadowColor: Colors.black54.withOpacity(0.2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
                             ),
+                            child: Text(value.reset ?? "Start",
+                                style: TextStyles.subheading.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400)),
                           ),
-                          child: Text('Start',
-                              style: TextStyles.subheading.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400)),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.circular(10.0)),
-                        width: MediaQuery.of(context).size.width * 0.35,
-                        height: 70,
-                        child: const Center(
-                            child: Text(
-                              "150 Days \n Goal",
-                              style:
-                              TextStyle(height: 1.4, fontWeight: FontWeight.w400),
-                              textAlign: TextAlign.center,
-                            )),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                ],
-              );
-            })
-          ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black12,
+                              borderRadius: BorderRadius.circular(10.0)),
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          height: 70,
+                          child: const Center(
+                              child: Text(
+                            "150 Days \n Goal",
+                            style: TextStyle(
+                                height: 1.4, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
+                          )),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                  ],
+                );
+              })),
         ),
         SizedBox(
           height: 20.0,
         ),
         SizedBox(
-            height: 370,
-            child: ScrollableCleanCalendar(
-                calendarController: calendarController,
-                layout: Layout.DEFAULT,
-                daySelectedBackgroundColorBetween: Colors.cyan,
-                dayBackgroundColor: Colors.cyan.shade50,
-                daySelectedBackgroundColor: Colors.cyan,
-                dayTextStyle: TextStyle(
-                  fontSize: 12,
-                )))
+          height: 370,
+          child:FutureBuilder(
+            future: context.read<ComponentProvider>().getTime(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done ||
+                  snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.hasData) {
+                  CleanCalendarController calendarController = CleanCalendarController(
+                    minDate: snapshot.data ?? DateTime.now(),
+                    maxDate: DateTime.now(), // Use the calculated maxDate here
+                  );
+                  return ScrollableCleanCalendar(
+                    calendarController: calendarController,
+                    layout: Layout.DEFAULT,
+                    daySelectedBackgroundColorBetween: Colors.cyan,
+                    dayBackgroundColor: Colors.cyan.shade50,
+                    daySelectedBackgroundColor: Colors.cyan,
+                    dayTextStyle: TextStyle(
+                      fontSize: 12,
+                    ),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          )
+
+        ),
       ],
     );
   }

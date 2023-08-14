@@ -7,6 +7,7 @@ import '../../../bloc/internet_bloc/internet_bloc.dart';
 import '../../../bloc/internet_bloc/internet_state.dart';
 import '../../../utils/utils.dart';
 import '../../../view/chat_screen.dart';
+import '../../../view/profile/update_profile.dart';
 import '../../../view/webview_instagram.dart';
 import '../../../view_model/bottomMenu_provider.dart';
 
@@ -16,7 +17,7 @@ class BottomNavigationAp extends StatelessWidget {
     HomeScreen(),
     InstagramPost(),
     ChatScreen(),
-    Center(child: const Text("Account"))
+    UpdateProfile(),
   ];
   @override
   Widget build(BuildContext context) {
